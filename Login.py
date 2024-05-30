@@ -1,5 +1,5 @@
 import streamlit as st
-
+import pandas as pd 
 st.set_page_config(
     page_title="Movie Tinder Gangbang ",
     page_icon="🍿",
@@ -30,3 +30,8 @@ nickname = st.text_area("",)
 st.header(' You have chosen ') 
 st.header(nickname)
 st.header("Remember it well so you can log in next time!")
+
+filepath = "D:\motiga\imdb_adatok.csv"
+df =pd.read_csv(filepath)
+
+st.session_state["df"]=df
