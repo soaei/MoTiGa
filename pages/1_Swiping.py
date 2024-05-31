@@ -68,3 +68,5 @@ html_code = """
 
 # Embed the HTML and JavaScript code in Streamlit
 components.html(html_code, height=600)
+
+st.page_link("pages\\2_Matches_and_more.py", label= "ready to see your matches?")

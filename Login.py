@@ -9,9 +9,12 @@ st.set_page_config(
 # Add some content to the app
 st.title("Hello there! ")
 
+#get df
+filepath = "D:\motiga\kisminta.csv"
+df =pd.read_csv(filepath)
 
 st.title ("Start a new game or continue an old one?")
-new_or_old = st.radio("", ["Start a new game", "Join existing game", "Continue old one"])
+new_or_old = st.radio("", ["New game", "Existing game", "Rejoin"])
 
 
 #name
@@ -34,10 +37,31 @@ def clean_string(input_string):
     
     return cleaned_string
 
-if new_or_old == "Join existing game":
-    player_2= 'player2_' + clean_string(nickname) 
-else:
+
+##Establishing players in new game
+if new_or_old == "New game":
     player_1 ='player1_' + clean_string(nickname) 
+elif new_or_old == "Existing game":
+    player_2 = 'player2_' + clean_string(nickname)
+
+##Reentering players
+
+column_name_1 ='player1_' + clean_string(nickname) 
+column_name_2 ='player2_' + clean_string(nickname) 
+
+if new_or_old == "Rejoin":
+    if column_name_1 in df.columns:
+        st.text( "Welcome back "+ nickname)
+        player_1 = 'player1_' + clean_string(nickname)  
+    elif column_name_2 in df.columns:
+        st.text( "Welcome back "+ nickname)
+        player_2 = 'player2_' + clean_string(nickname) 
+    else:
+        st.write("There is no such player found, please try again. If you have not yet played, please try joining a game")
+
+
+st.link_button("ready to play?", "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",help="Swear it's not rickroll" )
+st.page_link("pages\\1_Swiping.py")
 
 st.header(player_1)
 
