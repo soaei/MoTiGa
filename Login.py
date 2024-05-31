@@ -38,16 +38,19 @@ def clean_string(input_string):
     return cleaned_string
 
 
+column_name_1 ='player1_' + clean_string(nickname) 
+column_name_2 ='player2_' + clean_string(nickname)
+
 ##Establishing players in new game
 if new_or_old == "New game":
     player_1 ='player1_' + clean_string(nickname) 
+    df.rename(columns={'player_1' :player_1}, inplace = True)
 elif new_or_old == "Existing game":
-    player_2 = 'player2_' + clean_string(nickname)
+    player_2 ='player_2' + clean_string(nickname) 
+    df.rename(columns={'player_2 ' :player_2}, inplace = True)
 
 ##Reentering players
-
-column_name_1 ='player1_' + clean_string(nickname) 
-column_name_2 ='player2_' + clean_string(nickname) 
+ 
 
 if new_or_old == "Rejoin":
     if column_name_1 in df.columns:
@@ -60,14 +63,13 @@ if new_or_old == "Rejoin":
         st.write("There is no such player found, please try again. If you have not yet played, please try joining a game")
 
 
-st.link_button("ready to play?", "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley",help="Swear it's not rickroll" )
 st.page_link("pages\\1_Swiping.py")
 
 st.header(player_1)
 
-filepath = "D:\motiga\imdb_adatok.csv"
-df =pd.read_csv(filepath)
-df[player_1] = None
-#df[player_2] = None
+
 
 st.session_state["df"]=df
+
+st.session_state["player_1"]=player_1
+st.session_state["player_2"]=player_2
