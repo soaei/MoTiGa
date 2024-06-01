@@ -96,13 +96,53 @@ if (CON_KEY in st.session_state):
         id_ = not_yet_rated.index[0]
         #PRIO make this prettier
         title = df.loc[id_, "title"]
-        st.text(title)
-        if st.button("Like"):
-            execue_change(constr, col, 1, id_)
-            st.rerun()
-        if st.button("Dislike"):
-            execue_change(constr, col, -1, id_)
-            st.rerun()
+        pic_url = df.loc[id_, "img_link"]
+        plot = df.loc[id_, "plot"]
+        rating = df.loc[id_, "rating"]
+        pop = df.loc[id_, "popularity"]
+        length = df.loc[id_, "length"]
+        year = df.loc[id_, "year"]
+        pg = df.loc[id_, "rating_explanation"]
+        genre = df.loc[id_, "genre"]
+
+        st.markdown(
+            """
+        <style>
+        button {
+            text-align:center;
+            height: auto;
+            padding-top: 10px !important;
+            padding-bottom: 10px !important;
+            padding-right: 60px !important;
+            padding-left: 60px !important;
+        }
+        </style>
+        """,
+            unsafe_allow_html=True,
+        )
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.image(pic_url, width = 250)
+        with col2:
+            st.header(title)
+            st.write(plot)
+            st.write(f'⏰:', length)
+            st.write(f'⭐:', rating)
+            st.write(f'📈:', pop)
+            st.write(f'📆:', year)
+            st.write(f'🔞:', pg)
+            st.write(f'🎭:', genre)
+
+        with col3:
+            if st.button("⚡ Yes ⚡"):
+                execue_change(constr, col, 1, id_)
+                st.rerun()
+            if st.button("Nope"):
+                execue_change(constr, col, -1, id_)
+                st.rerun()
+        
+        
+
                 
 
 st.page_link("pages\\2_your_matches.py", label= "ready to see your matches?")
