@@ -3,7 +3,14 @@ import streamlit.components.v1 as components
 import sqlite3
 import pandas as pd
 
-from constants import data_dir, TABLE_NAME, CON_KEY, PLAYER_COL_KEY
+from constants import data_dir, TABLE_NAME, CON_KEY, PLAYER_COL_KEY, get_db_file
+
+st.set_page_config(
+    page_title="Movie Tinder Gangbang ",
+    page_icon="🍿",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
 
 st.header("Would you like to watch these films?")
 
@@ -77,7 +84,7 @@ def get_setter_query(col, val, id_):
     return f"UPDATE {TABLE_NAME} SET {col}={val} WHERE id='{id_}'"
 
 def execue_change(constr, col, val, id_):
-    con = sqlite3.connect(constr.replace("sqlite:///", ""))
+    con = sqlite3.connect(get_db_file(constr))
     with con:
         con.execute(get_setter_query(col, val, id_))
     con.close()
