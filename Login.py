@@ -26,11 +26,10 @@ if __name__ == "__main__":
     df = pd.read_csv(data_dir / "initial.csv").assign(player_1=0, player_2=0)
 
     # Add some content to the app
-    st.title("Hello there! ")
-    st.title ("Start a new game or continue an old one?")
+    st.header("Hello there! ")
 
-    #name
-    st.title("Please give me player 1's nickname, that identifies the game!")
+       #name
+    st.text("Please give me player 1's nickname, that identifies the game!")
     player_1 = st.text_input("player1 name")
 
     player_1_clean = clean_string(player_1)
@@ -40,8 +39,13 @@ if __name__ == "__main__":
         st.session_state[PLAYER_COL_KEY] = "player_1"
         if st.button("New game"):
                 try:
-                    df.sample(6).to_sql(TABLE_NAME, con, index=False)
-                    st.switch_page("pages\\1_Swiping.py")
+                    # PRIO3: make this more complex
+                    # n = st.slider("n", 3, 20, value=6)
+                    # n = st.selectbox("n", [3, 10, 20])
+                    n = 8
+                    filtered_df = df.sample(n)
+                    filtered_df.to_sql(TABLE_NAME, con, index=False)
+                    st.page_link("pages\\1_rate_films.py")
                 except ValueError:
                     st.text("game already exists")
 
@@ -56,17 +60,17 @@ if __name__ == "__main__":
                 st.text(f"{n} remains to rate")
                 st.session_state[PLAYER_COL_KEY] = col
                 st.session_state[CON_KEY] = con
-                st.switch_page("pages\\1_Swiping.py")
+                st.switch_page("pages\\1_rate_films.py")
             except (ValueError, OperationalError):
                 st.text("No such game")
             
         if st.button("Continue game as player 1"):
-            st.switch_page("pages\\1_Swiping.py")
+            st.switch_page("pages\\1_rate_films.py")
         if st.button("Continue game as player 2"):
             st.session_state[PLAYER_COL_KEY] = "player_2"
-            st.switch_page("pages\\1_Swiping.py")
+            st.switch_page("pages\\1_rate_films.py")
             
-        st.page_link("pages\\2_Matches_and_more.py", label="See Results")
+        st.page_link("pages\\2_your_matches.py", label="See Results")
 
     else:
         st.text("one word, no special characters, all lowercase if you would be so kind!")
