@@ -88,7 +88,11 @@ def execue_change(constr, col, val, id_):
 
 if (CON_KEY in st.session_state):
     constr = st.session_state[CON_KEY]
-    df = pd.read_sql(TABLE_NAME, constr).set_index("id")
+    try:
+        df = pd.read_sql(TABLE_NAME, constr).set_index("id")
+    except:
+        st.text("Not initiated game")
+        st.stop()
     col = st.session_state[PLAYER_COL_KEY]
     not_yet_rated = df.loc[df[col] == 0, :]
     if not not_yet_rated.empty:

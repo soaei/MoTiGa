@@ -3,9 +3,9 @@ import pandas as pd
 
 from constants import CON_KEY, TABLE_NAME
 
-if CON_KEY in st.session_state:
+try:
     con = st.session_state[CON_KEY]
     df = pd.read_sql(TABLE_NAME, con)
     st.dataframe(df)
-else:
+except:
     st.write("Dataframe not found. Please try again on the main page")
