@@ -56,9 +56,13 @@ if __name__ == "__main__":
                     # PRIO3: make this more complex
                     n = st.slider("n", 3, 20, value=6)
                     ratings = df["rating_explanation"].unique()
+                    decade = df["decade"].unique()
                     to_select = st.multiselect("Ratings", ratings, default=ratings)
+                    dec_select = st.multiselect("Decade", decade, default = None)
                     if st.button("Start"):
-                        filtered_df = df.loc[df["rating_explanation"].isin(to_select), :].sample(n)
+                        filtered_df = df.loc[df["rating_explanation"].isin(to_select) & df["decade"].isin(dec_select), :].sample(n)
+
+                        #filtered_df = df.loc[df["rating_explanation"]].df.loc[df["decade"].isin(dec_select), :].sample(n)
                         try:
                             filtered_df.to_sql(TABLE_NAME, con, index=False)
                             st.switch_page("pages\\1_rate_films.py")
